@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Task02</string>
+    <string name="loading_tv">Loading...</string>
+    <string name="profile">Profile</string>
+</resources>
