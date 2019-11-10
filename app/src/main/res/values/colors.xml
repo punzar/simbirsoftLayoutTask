@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#66a636</color>
+    <color name="colorPrimaryDark">#568B2C</color>
+    <color name="colorAccent">#66a636</color>
+    <color name="BnvUnselected">#979797</color>
+    <color name="White">#ffffff</color>
+    <color name="BnvSelected">#7db354</color>
+    <color name="Black">#000000</color>
+    <color name="AttributeGrey">#61000000</color>
+    <color name="AttributeValue">#de000000</color>
+
 </resources>
