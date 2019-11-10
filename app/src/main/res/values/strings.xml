@@ -7,14 +7,14 @@
     <string name="bottom_nav_help">Help</string>
     <string name="bottom_nav_history">History</string>
     <string name="profile_name">Константинов Денис</string>
-    <string name="birthday">Дата рождния</string>
-    <string name="birthday_data">01 февраля 1980</string>
-    <string name="field_of_activity">Сфера деятельности</string>
-    <string name="field_of_activity_value">Хирургия, травмотология</string>
-    <string name="push_notification">Получать push-уведомления</string>
-    <string name="your_friends">Ваши друзья</string>
+    <string name="birthday">Born</string>
+    <string name="birthday_data">February 01 1980</string>
+    <string name="field_of_activity">Occupation</string>
+    <string name="field_of_activity_value">Surgery, traumatology</string>
+    <string name="push_notification">Push notification</string>
+    <string name="your_friends">Friends</string>
     <string name="first_friend">Дмитрий Валерьевич</string>
     <string name="second_friend">Евгений Александров</string>
     <string name="third_friend">Виктор Кузнецов</string>
-    <string name="log_out">Выйти из аккаунта</string>
+    <string name="log_out">Log out</string>
 </resources>
