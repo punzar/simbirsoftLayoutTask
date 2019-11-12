@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="head_padding">20dp</dimen>
+    <dimen name="profile_name_t_size">24sp</dimen>
+    <dimen name="body_padding">16dp</dimen>
+    <dimen name="attribute_t_size">12sp</dimen>
+    <dimen name="attribute_value_t_size">16sp</dimen>
+    <dimen name="between_attribute">10dp</dimen>
+</resources>
