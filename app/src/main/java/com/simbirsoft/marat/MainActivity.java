@@ -17,17 +17,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
-        /*В ходе разметки я что то поломал, и андроед никак не хочет брать примариДарк для
-        разукрашивания статусБара. Понимаю что дикий костыль, но это только самое начало моего
-        обучения, и если вы мне подскажете в чем ошибка, я был бы вам очень благодарен :)
-         */
-        if (Build.VERSION.SDK_INT >= 21) {
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
-        }
-
         ProgressBar progressBar = findViewById(R.id.pb_splash);
         progressBar.setVisibility(ProgressBar.VISIBLE);
 
