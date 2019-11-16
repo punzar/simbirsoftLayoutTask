@@ -18,4 +18,7 @@
     <string name="third_friend">Виктор Кузнецов</string>
     <string name="log_out">Log out</string>
     <string name="simbirsoft">mobile.SimbirSoft</string>
+    <string name="choose_photo">Choose photo</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="delete">Delete</string>
 </resources>

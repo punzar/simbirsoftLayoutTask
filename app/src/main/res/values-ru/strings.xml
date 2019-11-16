@@ -18,4 +18,7 @@
     <string name="third_friend">Виктор Кузнецов</string>
     <string name="log_out">Выйти из аккаунта</string>
     <string name="simbirsoft">mobile.SimbirSoft</string>
+    <string name="choose_photo">Выбрать фото</string>
+    <string name="take_a_photo">Сделать снимок</string>
+    <string name="delete">Удалить</string>
 </resources>

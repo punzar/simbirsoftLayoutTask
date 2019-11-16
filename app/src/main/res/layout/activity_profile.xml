@@ -40,11 +40,12 @@
 
             <ImageView
                 android:contentDescription="@string/profile"
-                android:id="@+id/imageView"
+                android:id="@+id/profileImageView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="3:2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -60,7 +61,7 @@
                 android:textColor="@color/Black"
                 android:textSize="@dimen/profile_name_t_size"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/profileImageView" />
 
             <TextView
                 android:id="@+id/textView2"
