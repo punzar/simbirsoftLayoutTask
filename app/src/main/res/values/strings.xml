@@ -21,4 +21,12 @@
     <string name="choose_photo">Choose photo</string>
     <string name="take_a_photo">Take a photo</string>
     <string name="delete">Delete</string>
+    <string name="kids">Kids</string>
+    <string name="adults">Adults</string>
+    <string name="elderly">The Elderly</string>
+    <string name="pets">Animals</string>
+    <string name="events">Events</string>
+    <string name="help_titel">Choose help category</string>
+
+
 </resources>

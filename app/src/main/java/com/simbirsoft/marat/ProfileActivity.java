@@ -29,7 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     Dialog mChangePhotoDialog;
     String mCurrentPhotoPath;
     final static int IMAGE_REQUEST = 1;
-
+//todo реализовать сохранение состаяния
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
+//todo реализовать переключение
     private BottomNavigationView.OnNavigationItemSelectedListener getBottomNavigationListener() {
         return new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

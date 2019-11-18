@@ -9,5 +9,6 @@
     <color name="Black">#000000</color>
     <color name="AttributeGrey">#61000000</color>
     <color name="AttributeValue">#de000000</color>
-
+    <color name="HelpItemText">#9ebf50</color>
+    <color name="HelpItemFrame">#eaede8</color>
 </resources>
