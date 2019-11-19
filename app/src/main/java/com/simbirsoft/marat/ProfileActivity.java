@@ -74,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
                         mChangePhotoDialog.cancel();
                         break;
                     case R.id.dialogTvDelete:
-                        mProfileImage.setImageResource(R.drawable.ic_help);
+                        mProfileImage.setImageResource(R.drawable.ic_user_icon_default);
                         mChangePhotoDialog.cancel();
                         Toast.makeText(ProfileActivity.this, "Delete a photo from text", Toast.LENGTH_LONG).show();
                         break;
