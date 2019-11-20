@@ -39,11 +39,11 @@
 
 
             <ImageView
-                android:contentDescription="@string/profile"
                 android:id="@+id/profileImageView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/profile"
                 android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="3:2"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -153,12 +153,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <ImageView
-                android:contentDescription="@string/first_friend"
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/head_padding"
                 android:layout_marginTop="@dimen/body_padding"
+                android:contentDescription="@string/first_friend"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
                 app:srcCompat="@drawable/avatar_3" />
@@ -176,12 +176,12 @@
                 app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
             <ImageView
-                android:contentDescription="@string/second_friend"
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/head_padding"
                 android:layout_marginTop="@dimen/between_attribute"
+                android:contentDescription="@string/second_friend"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2"
                 app:srcCompat="@drawable/avatar_2" />
@@ -199,12 +199,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
             <ImageView
-                android:contentDescription="@string/third_friend"
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/head_padding"
                 android:layout_marginTop="@dimen/between_attribute"
+                android:contentDescription="@string/third_friend"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3"
                 app:srcCompat="@drawable/avatar_1" />

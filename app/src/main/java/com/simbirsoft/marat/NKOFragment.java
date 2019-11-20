@@ -31,6 +31,7 @@ public class NKOFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_nko, container, false);
+        initItems();
         return view;
     }
 
@@ -53,10 +54,8 @@ public class NKOFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onPause() {
+        super.onPause();
         initItems();
     }
-
-
 }

@@ -11,12 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,14 +22,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SearchFragment extends Fragment {
 
     private SearchView mSearchView = null;
@@ -44,14 +39,12 @@ public class SearchFragment extends Fragment {
 
 
     public SearchFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
 
     }
@@ -69,9 +62,10 @@ public class SearchFragment extends Fragment {
         pagerAdapter = new MyFragmentPagerAdapter(getFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(pagerAdapter);
+
+
         TabLayout tabLayout = view.findViewById(R.id.tabLayoutSearch);
         tabLayout.setupWithViewPager(viewPager);
-
 
     }
 
@@ -105,29 +99,30 @@ public class SearchFragment extends Fragment {
             mQueryTextListener = new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String s) {
-                    Log.i("onQueryTextSubmit :: ", s);
-                    Toast.makeText(mContext, "onQueryTextSubmit: " + s, Toast.LENGTH_SHORT).show();
                     return true;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String s) {
-                    Log.i("onQueryTextChange :: ", s);
-                    Toast.makeText(mContext, "onQueryTextChange: " + s, Toast.LENGTH_SHORT).show();
                     return true;
                 }
             };
             mSearchView.setOnQueryTextListener(mQueryTextListener);
-            //todo вынести в string xml;
-            mSearchView.setQueryHint("Введите название организации");
+            mSearchView.setQueryHint(getResources().getString(R.string.search_view_hint));
             mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean b) {
+
+                    int id = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+                    TextView textView = mSearchView.findViewById(id);
+
                     if (b) {
                         mSearchView.setBackgroundColor(getResources().getColor(R.color.White));
+                        textView.setTextColor(getResources().getColor(R.color.AttributeGrey));
 
                     } else {
                         mSearchView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        textView.setTextColor(getResources().getColor(R.color.White));
                     }
                 }
             });
@@ -165,7 +160,6 @@ public class SearchFragment extends Fragment {
                 case 0:
                     return new EventFragment();
                 case 1:
-
                     return new NKOFragment();
 
                 default:
@@ -179,9 +173,9 @@ public class SearchFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Events";
+                    return getResources().getString(R.string.pager_events_title);
                 case 1:
-                    return "NKO";
+                    return getResources().getString(R.string.pager_nko_title);
                 default:
                     return "wrong";
             }

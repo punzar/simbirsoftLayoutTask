@@ -3,19 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NKOFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".NKOFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
+
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ключевые слова: мастер-класс, помощь
-Результаты поиска: 109 мероприятий" />
+        android:layout_gravity="center_horizontal"
+        android:text="@string/search_nko_tv" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_nko"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"/>
+        android:orientation="vertical" />
 
 </LinearLayout>

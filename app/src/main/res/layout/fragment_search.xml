@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".SearchFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".SearchFragment">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar_search"
         android:layout_width="match_parent"
@@ -14,14 +15,21 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     </androidx.appcompat.widget.Toolbar>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tabLayoutSearch"/>
+            android:backgroundTint="@color/colorPrimary"
+            android:theme="@style/Widget.AppCompat.Light.ActionBar.TabBar"
+            app:tabIndicatorColor="#f2b630"
+            app:tabSelectedTextColor="@color/White"
+            app:tabTextColor="#b3ffffff" />
     </androidx.viewpager.widget.ViewPager>
 
     <!-- TODO: Update blank fragment layout -->

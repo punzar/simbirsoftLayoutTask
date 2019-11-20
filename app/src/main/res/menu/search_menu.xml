@@ -9,5 +9,5 @@
         android:icon="@drawable/searh"
         android:title=""
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 </menu>

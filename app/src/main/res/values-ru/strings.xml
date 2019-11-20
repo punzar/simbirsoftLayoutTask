@@ -27,4 +27,11 @@
     <string name="elderly">Пожилые</string>
     <string name="events">Мероприятия</string>
     <string name="help_titel">Выберите категорию помощи</string>
+    <string name="search_event_tv1">Напишите в строке поиска название\nмероприятия или ключевые слова.</string>
+    <string name="search_event_tv2">Например,</string>
+    <string name="search_event_tv3"><u>мастер-класс, помощь</u></string>
+    <string name="search_nko_tv">Ключевые слова: мастер-класс, помощь\nРезультаты поиска: 109 мероприятий</string>
+    <string name="pager_events_title">По мероприятиям</string>
+    <string name="pager_nko_title">По НКО</string>
+    <string name="search_view_hint">Введите название организации</string>
 </resources>
