@@ -22,8 +22,19 @@ public class HelpActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener(getBottomNavigationListener());
+        Intent intent = getIntent();
+        int selectedButton = intent.getIntExtra("selected_btn", -1);
+       //todo вынести в метод, использовать фрагментТранзакшен
+        switch (selectedButton){
+            case 1:
+                bottomNavigationView.setSelectedItemId(R.id.app_bar_search);
 
-        bottomNavigationView.setSelectedItemId(R.id.bottom_nav_help);
+            case -1:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_nav_help);
+                break;
+        }
+
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener getBottomNavigationListener() {

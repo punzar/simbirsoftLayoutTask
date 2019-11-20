@@ -21,7 +21,6 @@ import java.util.ArrayList;
  */
 public class HelpFragment extends Fragment {
     private static final int NUM_OF_COLUMN = 2;
-    Context mContext;
     private ArrayList<String> mTexts = new ArrayList<>();
     private ArrayList<Integer> mImages = new ArrayList<>();
     private View view;
@@ -61,9 +60,8 @@ public class HelpFragment extends Fragment {
         initRecyclerView();
     }
     private void initRecyclerView(){
-        mContext = view.getContext();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_help);
-        HelpReciclerViewAdapter helpReciclerViewAdapter = new HelpReciclerViewAdapter(mContext, mTexts, mImages);
+        HelpReciclerViewAdapter helpReciclerViewAdapter = new HelpReciclerViewAdapter(view.getContext(), mTexts, mImages);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_OF_COLUMN, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(helpReciclerViewAdapter);

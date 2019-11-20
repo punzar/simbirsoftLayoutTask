@@ -10,6 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +26,8 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +38,9 @@ public class SearchFragment extends Fragment {
     private SearchView.OnQueryTextListener mQueryTextListener;
     private Toolbar mToolbar;
     Context mContext;
+
+    ViewPager viewPager;
+    PagerAdapter pagerAdapter;
 
 
     public SearchFragment() {
@@ -55,6 +65,13 @@ public class SearchFragment extends Fragment {
         if (appCompatActivity != null)
 
             appCompatActivity.setSupportActionBar(mToolbar);
+        viewPager = view.findViewById(R.id.view_pager);
+        pagerAdapter = new MyFragmentPagerAdapter(getFragmentManager(),
+                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPager.setAdapter(pagerAdapter);
+        TabLayout tabLayout = view.findViewById(R.id.tabLayoutSearch);
+        tabLayout.setupWithViewPager(viewPager);
+
 
     }
 
@@ -134,4 +151,48 @@ public class SearchFragment extends Fragment {
         mSearchView.setOnQueryTextListener(mQueryTextListener);
         return super.onOptionsItemSelected(item);
     }
+
+    private class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
+
+        public MyFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+            super(fm, behavior);
+        }
+
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new EventFragment();
+                case 1:
+
+                    return new NKOFragment();
+
+                default:
+                    return new NKOFragment();
+            }
+
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Events";
+                case 1:
+                    return "NKO";
+                default:
+                    return "wrong";
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+    }
 }
+
+

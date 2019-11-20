@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     Dialog mChangePhotoDialog;
     String mCurrentPhotoPath;
     final static int IMAGE_REQUEST = 1;
+    Context mContext;
 //todo реализовать сохранение состаяния
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(getBottomNavigationListener());
 
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_profile);
-
+        mContext = this;
         mProfileImage = findViewById(R.id.profileImageView);
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +89,13 @@ public class ProfileActivity extends AppCompatActivity {
         return new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.bottom_nav_search:{
+                        Intent intent = new Intent(mContext,HelpActivity.class);
+                        intent.putExtra("selected_btn",1);
+                        startActivity(intent);
+                    }
+                }
                 return true;
             }
         };
