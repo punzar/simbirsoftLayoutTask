@@ -34,4 +34,5 @@
     <string name="pager_events_title">По мероприятиям</string>
     <string name="pager_nko_title">По НКО</string>
     <string name="search_view_hint">Введите название организации</string>
+    <string name="magnifying_glass">Увеличительное стекло</string>
 </resources>

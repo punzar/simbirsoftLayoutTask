@@ -12,6 +12,7 @@
         <item name="materialButtonStyle">@style/HelperMaterialButton</item>
         <item name="tabStyle">@style/HelperTabLayout</item>
         <item name="toolbarStyle">@style/HelperToolbar</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <style name="HelperAppTheme.Search">

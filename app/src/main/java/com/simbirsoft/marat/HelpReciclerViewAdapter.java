@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class HelpReciclerViewAdapter extends RecyclerView.Adapter<HelpReciclerViewAdapter.ViewHolder>{
+public class HelpReciclerViewAdapter extends RecyclerView.Adapter<HelpReciclerViewAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<String> mTexts = new ArrayList<>();
     private ArrayList<Integer> mImages = new ArrayList<>();
@@ -26,7 +26,7 @@ public class HelpReciclerViewAdapter extends RecyclerView.Adapter<HelpReciclerVi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_help_item, parent ,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_help_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,7 +42,7 @@ public class HelpReciclerViewAdapter extends RecyclerView.Adapter<HelpReciclerVi
         return mImages.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView text;
 

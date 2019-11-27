@@ -18,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:itemIconSize="24dp"
-
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
 

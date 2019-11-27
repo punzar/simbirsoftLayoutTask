@@ -38,7 +38,8 @@ public class HelpFragment extends Fragment {
         return view;
 
     }
-    private void initItems(){
+
+    private void initItems() {
         mTexts.add(getString(R.string.kids));
         mImages.add(R.drawable.little_girl);
 
@@ -56,7 +57,8 @@ public class HelpFragment extends Fragment {
 
         initRecyclerView();
     }
-    private void initRecyclerView(){
+
+    private void initRecyclerView() {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_help);
         HelpReciclerViewAdapter helpReciclerViewAdapter = new HelpReciclerViewAdapter(view.getContext(), mTexts, mImages);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(NUM_OF_COLUMN, LinearLayoutManager.VERTICAL);

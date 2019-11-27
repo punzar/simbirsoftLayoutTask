@@ -38,5 +38,4 @@
         android:contentDescription="@string/simbirsoft"
         android:src="@drawable/logo_mss" />
 
-
 </LinearLayout>
