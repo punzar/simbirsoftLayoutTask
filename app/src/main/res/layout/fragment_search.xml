@@ -11,10 +11,9 @@
         android:id="@+id/my_toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/HelperAppTheme.Search"
+        app:title="@string/bottom_nav_search"/>
 
-    </androidx.appcompat.widget.Toolbar>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
@@ -24,12 +23,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutSearch"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:theme="@style/Widget.AppCompat.Light.ActionBar.TabBar"
-            app:tabIndicatorColor="#f2b630"
-            app:tabSelectedTextColor="@color/White"
-            app:tabTextColor="#b3ffffff" />
+            android:layout_height="wrap_content" />
     </androidx.viewpager.widget.ViewPager>
 
     <!-- TODO: Update blank fragment layout -->

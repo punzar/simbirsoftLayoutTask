@@ -48,7 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_profile);
         mContext = this;
-        mProfileImage = findViewById(R.id.profileImageView);
+        mProfileImage = findViewById(R.id.profleImageView);
         if (savedInstanceState != null) {
             mCurrentPhotoPath = savedInstanceState.getString("PATH");
             mIsDelete = savedInstanceState.getBoolean("IsDELETE");

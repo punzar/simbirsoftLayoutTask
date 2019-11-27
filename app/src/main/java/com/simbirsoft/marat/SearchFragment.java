@@ -109,43 +109,44 @@ public class SearchFragment extends Fragment {
             };
             mSearchView.setOnQueryTextListener(mQueryTextListener);
             mSearchView.setQueryHint(getResources().getString(R.string.search_view_hint));
-            mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean b) {
-
-                    int id = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-                    TextView textView = mSearchView.findViewById(id);
-
-                    if (b) {
-                        mSearchView.setBackgroundColor(getResources().getColor(R.color.White));
-                        textView.setTextColor(getResources().getColor(R.color.AttributeGrey));
-
-                    } else {
-                        mSearchView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                        textView.setTextColor(getResources().getColor(R.color.White));
-                    }
-                }
-            });
+//            mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+//                @Override
+//                public void onFocusChange(View view, boolean b) {
+//
+//                    int id = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+//                    TextView textView = mSearchView.findViewById(id);
+//
+//                    if (b) {
+//                        mSearchView.setBackgroundColor(getResources().getColor(R.color.White));
+//                        textView.setTextColor(getResources().getColor(R.color.AttributeGrey));
+//
+//                    } else {
+//                        mSearchView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//                        textView.setTextColor(getResources().getColor(R.color.White));
+//                    }
+//                }
+//            });
 
 
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.app_bar_search:
-
-                return true;
-
-            default:
-                break;
-        }
-
-        mSearchView.setOnQueryTextListener(mQueryTextListener);
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.app_bar_search:
+//
+//                return true;
+//
+//            default:
+//                break;
+//        }
+//
+//        mSearchView.setOnQueryTextListener(mQueryTextListener);
+//        super.onOptionsItemSelected(item);
+//        return true;
+//    }
 
     private class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
