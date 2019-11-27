@@ -10,7 +10,6 @@
         android:iconTint="@color/white"
         android:title="@string/bottom_nav_search"
         app:actionViewClass="android.widget.SearchView"
-        
         android:actionLayout="@layout/view_search"
         app:showAsAction="collapseActionView|ifRoom"/>
 </menu>

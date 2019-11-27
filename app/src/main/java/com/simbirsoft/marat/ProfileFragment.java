@@ -1,9 +1,7 @@
 package com.simbirsoft.marat;
 
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,31 +38,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     ImageView mProfileImage;
     Dialog mChangePhotoDialog;
     String mCurrentPhotoPath;
-    boolean mIsDelete = false;
+    boolean mIsDelete;
     final static int IMAGE_REQUEST = 1;
-    Context mContext;
-
-    public interface IPhotoPath {
-        public void savePhotoPath(String photoPath);
-
-    }
-
-    public void setPhotoPathListener(IPhotoPath photoPath){
-        this.photoPath = photoPath;
-    }
-
-    IPhotoPath photoPath;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
-
-//    @Override
-//    public void onAttach(@NonNull Activity activity) {
-//        super.onAttach(activity);
-//        photoPath = (IPhotoPath) activity;
-//    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,12 +63,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         myToolbar.inflateMenu(R.menu.profile_menu);
         mProfileImage = view.findViewById(R.id.profileImageView);
 
+
         if (mCurrentPhotoPath != null && !mIsDelete)
             Picasso.get().load(new File(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
 
         if (mIsDelete)
             mProfileImage.setImageResource(R.drawable.ic_user_icon_default);
-        mContext = view.getContext();
 
         mProfileImage.setOnClickListener(this);
 
@@ -111,6 +90,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         mProfileImage.setImageResource(R.drawable.ic_user_icon_default);
                         mIsDelete = true;
                         mChangePhotoDialog.cancel();
+
                         break;
                 }
             }
@@ -126,11 +106,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 photoFile = createImageFile();
             } catch (IOException e) {
                 e.printStackTrace();
-                Toast.makeText(mContext, "Some thing WRONG", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Some thing WRONG", Toast.LENGTH_LONG).show();
             }
 
             if (photoFile != null) {
-                Uri photoUri = FileProvider.getUriForFile(mContext, "com.simbirsoft.marat.fileprovider", photoFile);
+                Uri photoUri = FileProvider.getUriForFile(getActivity(), "com.simbirsoft.marat.fileprovider", photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(intent, IMAGE_REQUEST);
             }
@@ -157,14 +137,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void setmProfileImage() {
         Picasso.get().load(new File(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
-        photoPath.savePhotoPath(mCurrentPhotoPath);
     }
 
     @Override
     public void onClick(View view) {
-        Toast.makeText(getActivity(), "Photo clicked!!", Toast.LENGTH_SHORT).show();
-
-        mChangePhotoDialog = new Dialog(mContext);
+        mChangePhotoDialog = new Dialog(getActivity());
         mChangePhotoDialog.setContentView(R.layout.dialog_profile_set_photo);
 
         TextView tvTakePhoto = mChangePhotoDialog.findViewById(R.id.dialogTvTakePhoto);
@@ -181,7 +158,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         super.onSaveInstanceState(outState);
         outState.putString("PATH", mCurrentPhotoPath);
         outState.putBoolean("IsDELETE", mIsDelete);
-
     }
 
 }

@@ -3,6 +3,7 @@ package com.simbirsoft.marat;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -45,18 +45,11 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search, container, false);
-
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
         mToolbar = view.findViewById(R.id.my_toolbar_search);
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
         mContext = view.getContext();
         if (appCompatActivity != null)
-
             appCompatActivity.setSupportActionBar(mToolbar);
         viewPager = view.findViewById(R.id.view_pager);
         pagerAdapter = new MyFragmentPagerAdapter(getFragmentManager(),
@@ -67,12 +60,8 @@ public class SearchFragment extends Fragment {
         TabLayout tabLayout = view.findViewById(R.id.tabLayoutSearch);
         tabLayout.setupWithViewPager(viewPager);
 
-    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+        return view;
 
     }
 
@@ -108,6 +97,7 @@ public class SearchFragment extends Fragment {
                 }
             };
             mSearchView.setOnQueryTextListener(mQueryTextListener);
+            mSearchView.setIconifiedByDefault(false);
             mSearchView.setQueryHint(getResources().getString(R.string.search_view_hint));
 //            mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
 //                @Override
@@ -126,27 +116,9 @@ public class SearchFragment extends Fragment {
 //                    }
 //                }
 //            });
-
-
         }
-        super.onCreateOptionsMenu(menu, inflater);
+     //   super.onCreateOptionsMenu(menu, inflater);
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.app_bar_search:
-//
-//                return true;
-//
-//            default:
-//                break;
-//        }
-//
-//        mSearchView.setOnQueryTextListener(mQueryTextListener);
-//        super.onOptionsItemSelected(item);
-//        return true;
-//    }
 
     private class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -188,6 +160,22 @@ public class SearchFragment extends Fragment {
         }
 
     }
+
+    //    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.app_bar_search:
+//
+//                return true;
+//
+//            default:
+//                break;
+//        }
+//
+//        mSearchView.setOnQueryTextListener(mQueryTextListener);
+//        super.onOptionsItemSelected(item);
+//        return true;
+//    }
 }
 
 

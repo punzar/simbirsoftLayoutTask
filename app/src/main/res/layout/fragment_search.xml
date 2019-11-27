@@ -11,8 +11,7 @@
         android:id="@+id/my_toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/HelperAppTheme.Search"
-        app:title="@string/bottom_nav_search"/>
+        app:title="@string/bottom_nav_search" />
 
 
     <androidx.viewpager.widget.ViewPager
