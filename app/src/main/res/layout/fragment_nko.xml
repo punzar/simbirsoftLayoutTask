@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_grey_two"
     android:orientation="vertical"
     tools:context=".NKOFragment">
 
@@ -10,13 +11,17 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/search_nko_tv" />
+        android:layout_marginStart="@dimen/head_padding"
+        android:layout_marginTop="@dimen/head_padding"
+        android:layout_marginBottom="@dimen/head_padding"
+        android:text="@string/search_nko_tv"
+        android:textSize="14sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_nko"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical" />
 
 </LinearLayout>
