@@ -3,6 +3,7 @@ package com.simbirsoft.marat;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -39,7 +40,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     Dialog mChangePhotoDialog;
     String mCurrentPhotoPath;
     boolean mIsDelete;
-    final static int IMAGE_REQUEST = 1;
+    String mUriString;
+    final static int TAKE_IMAGE_REQUEST = 1;
+    final static int CHOOSE_IMAGE_REQUEST = 2;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -52,6 +55,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if (savedInstanceState != null) {
             mCurrentPhotoPath = savedInstanceState.getString("PATH");
             mIsDelete = savedInstanceState.getBoolean("IsDELETE");
+            mUriString = savedInstanceState.getString("URI");
         }
     }
 
@@ -67,6 +71,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if (mCurrentPhotoPath != null && !mIsDelete)
             Picasso.get().load(new File(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
 
+        if (mUriString != null && !mIsDelete)
+            Picasso.get().load(Uri.parse(mUriString)).fit().centerCrop().rotate(90).into(mProfileImage);
+
+
         if (mIsDelete)
             mProfileImage.setImageResource(R.drawable.ic_user_icon_default);
 
@@ -81,9 +89,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 switch (view.getId()) {
-                    case R.id.dialogTvTakePhoto:
-                        takePictureIntent();
+                    case R.id.dialogTvChoosePhoto:
+                        takePictureIntent(R.id.dialogTvChoosePhoto);
                         mIsDelete = false;
+                        mCurrentPhotoPath = null;
+                        mChangePhotoDialog.cancel();
+                        break;
+                    case R.id.dialogTvTakePhoto:
+                        takePictureIntent(R.id.dialogTvTakePhoto);
+                        Toast.makeText(getActivity(),"TAKE PHOTO CLICKED!", Toast.LENGTH_LONG).show();
+                        mIsDelete = false;
+                        mUriString = null;
                         mChangePhotoDialog.cancel();
                         break;
                     case R.id.dialogTvDelete:
@@ -97,25 +113,35 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void takePictureIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            File photoFile = null;
+    private void takePictureIntent(int id) {
+        switch (id){
+            case R.id.dialogTvTakePhoto:
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    File photoFile = null;
 
-            try {
-                photoFile = createImageFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getActivity(), "Some thing WRONG", Toast.LENGTH_LONG).show();
-            }
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getActivity(), "Some thing WRONG", Toast.LENGTH_LONG).show();
+                    }
 
-            if (photoFile != null) {
-                Uri photoUri = FileProvider.getUriForFile(getActivity(), "com.simbirsoft.marat.fileprovider", photoFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                startActivityForResult(intent, IMAGE_REQUEST);
-            }
+                    if (photoFile != null) {
+                        Uri photoUri = FileProvider.getUriForFile(getActivity(), "com.simbirsoft.marat.fileprovider", photoFile);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                        startActivityForResult(intent, TAKE_IMAGE_REQUEST);
+                    }
 
+                }
+                break;
+            case R.id.dialogTvChoosePhoto:
+                Intent choosePhotoIntent = new Intent(Intent.ACTION_PICK);
+                choosePhotoIntent.setType("image/*");
+                startActivityForResult(choosePhotoIntent,CHOOSE_IMAGE_REQUEST);
+                break;
         }
+
     }
 
     private File createImageFile() throws IOException {
@@ -130,13 +156,32 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (IMAGE_REQUEST == requestCode && resultCode == RESULT_OK) {
-            setmProfileImage();
+        switch (requestCode){
+            case TAKE_IMAGE_REQUEST:
+                if(resultCode == RESULT_OK)
+                    setmProfileImage(TAKE_IMAGE_REQUEST);
+                break;
+            case CHOOSE_IMAGE_REQUEST:
+                if(resultCode == RESULT_OK) {
+                    Uri selectedImage = data.getData();
+                    mUriString = selectedImage.toString();
+                    setmProfileImage(CHOOSE_IMAGE_REQUEST);
+                   break;
+                }
         }
     }
 
-    private void setmProfileImage() {
-        Picasso.get().load(new File(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
+    private void setmProfileImage(int requestCode) {
+        switch (requestCode){
+            case TAKE_IMAGE_REQUEST:
+                Picasso.get().load(new File(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
+                break;
+            case CHOOSE_IMAGE_REQUEST:
+              //todo  обрабатывать ширину и высоту фото
+                Picasso.get().load(Uri.parse(mUriString)).fit().centerCrop().rotate(90).into(mProfileImage);
+                break;
+        }
+
     }
 
     @Override
@@ -144,8 +189,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mChangePhotoDialog = new Dialog(getActivity());
         mChangePhotoDialog.setContentView(R.layout.dialog_profile_set_photo);
 
+        TextView tvChosePhoto = mChangePhotoDialog.findViewById(R.id.dialogTvChoosePhoto);
         TextView tvTakePhoto = mChangePhotoDialog.findViewById(R.id.dialogTvTakePhoto);
         TextView tvDelete = mChangePhotoDialog.findViewById(R.id.dialogTvDelete);
+
+        dialogClickListener(tvChosePhoto);
         dialogClickListener(tvTakePhoto);
         dialogClickListener(tvDelete);
 
@@ -158,6 +206,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         super.onSaveInstanceState(outState);
         outState.putString("PATH", mCurrentPhotoPath);
         outState.putBoolean("IsDELETE", mIsDelete);
+        outState.putString("URI", mUriString);
+
     }
 
 }
