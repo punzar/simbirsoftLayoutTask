@@ -37,6 +37,10 @@ public class HelpActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
+            case R.id.bottom_nav_news: {
+                setFragment(new NewsFragment());
+                break;
+            }
             case R.id.bottom_nav_search: {
                 setFragment(new SearchFragment());
                 break;

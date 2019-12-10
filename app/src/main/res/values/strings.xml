@@ -38,5 +38,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="magnifying_glass">Увеличительное стекло</string>
+    <string name="filter">Фильтр</string>
+    <string name="help_category">Категории помощи</string>
 
 </resources>

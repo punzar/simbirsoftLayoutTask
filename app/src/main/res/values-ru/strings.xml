@@ -35,4 +35,6 @@
     <string name="pager_nko_title">По НКО</string>
     <string name="search_view_hint">Введите название организации</string>
     <string name="magnifying_glass">Увеличительное стекло</string>
+    <string name="filter">Фильтр</string>
+    <string name="help_category">Категории помощи</string>
 </resources>
