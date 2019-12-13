@@ -50,12 +50,11 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    /*  holder.imageView.setBackground();
-        holder.headTextView.setText();
-        holder.bodyTextView.setText();
-        holder.dateTextView.setText();
-        todo
-     */
+        holder.imageView.setBackground(dataSource.get(position).getPhotoHead());
+        holder.headTextView.setText(dataSource.get(position).getTitel());
+        holder.bodyTextView.setText(dataSource.get(position).getArticleText());
+        holder.dateTextView.setText(dataSource.get(position).getDateText());
+
 
     }
 
