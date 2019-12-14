@@ -100,15 +100,18 @@ public class NewsEvent {
         this.countOfLike = countOfLike;
     }
 
-    public void setHelpCategory(String[] helpCategoryArray) {
-
-        ArrayList<HelpCategory> helpCategories = new ArrayList<>();
-
-        for(int i = 0; i < helpCategoryArray.length; i++) {
-            helpCategories.add(new HelpCategory(helpCategoryArray[i]));
-        }
-
-        this.helpCategory = helpCategories;
+//    public void setHelpCategory(String[] helpCategoryArray) {
+//
+//        ArrayList<HelpCategory> helpCategories = new ArrayList<>();
+//
+//        for(int i = 0; i < helpCategoryArray.length; i++) {
+//            helpCategories.add(new HelpCategory(helpCategoryArray[i]));
+//        }
+//
+//        this.helpCategory = helpCategories;
+//    }
+    public void setHelpCategory(ArrayList<HelpCategory> helpCategoryArray) {
+        helpCategory = helpCategoryArray;
     }
 
     public int getId() {

@@ -37,7 +37,8 @@ public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.Vi
 
     public void updateData(ArrayList<HelpCategory> newList) {
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new FilterDiffUtilCallback(categoriesList, newList));
-
+        categoriesList.clear();
+        categoriesList.addAll(newList);
         diffResult.dispatchUpdatesTo(this);
 //        categoriesList.clear();
 //        for(int i = 0; i<newList.size();i++){

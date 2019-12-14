@@ -35,7 +35,6 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ViewHo
     public void updateData(List<NewsEvent> newList) {
         NewsDiffUtilCallback diffUtilCallback = new NewsDiffUtilCallback(dataSource, newList);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback);
-
         dataSource.clear();
         dataSource.addAll(newList);
         diffResult.dispatchUpdatesTo(this);

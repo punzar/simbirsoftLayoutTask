@@ -31,6 +31,6 @@ public class FilterDiffUtilCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+        return newList.get(newItemPosition).equals(oldList.get(oldItemPosition));
     }
 }

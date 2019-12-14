@@ -89,6 +89,7 @@ public class FilterFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.setOnCheckedChangeListener(mOnCheckedChangeListener);
+
     }
 
     public ArrayList<HelpCategory> getListFromJson() {
@@ -122,10 +123,8 @@ public class FilterFragment extends Fragment {
     private FilterItemAdapter.OnCheckedChangeListener mOnCheckedChangeListener = new FilterItemAdapter.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(int position, boolean isChecked) {
-           // Toast.makeText(getActivity(),"CHANGE " + position + " switch to " + isChecked,Toast.LENGTH_SHORT).show();
             mCategories.get(position).setState(isChecked);
 
-            recyclerViewAdapter.updateData(mCategories);
             SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(mCategories.get(position).getName(),isChecked);

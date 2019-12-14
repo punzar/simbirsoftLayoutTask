@@ -1,5 +1,9 @@
 package com.simbirsoft.marat;
 
+import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+
 class HelpCategory {
     private int id;
     private String name;
@@ -11,6 +15,7 @@ class HelpCategory {
         id = countId;
         countId++;
     }
+
     public HelpCategory(String name, boolean state) {
         this.name = name;
         this.state = state;
@@ -20,6 +25,17 @@ class HelpCategory {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+//        if (this == obj)
+//            return true;
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+
+        HelpCategory categories = (HelpCategory) obj;
+        return categories.getName().equals(name) && state;
     }
 
     public void setName(String name) {

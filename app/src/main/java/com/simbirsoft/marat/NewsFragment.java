@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
  */
 public class NewsFragment extends Fragment {
     ArrayList<HelpCategory> mCategories;
+    NewsItemAdapter mAdapter;
 
 
     public NewsFragment() {
@@ -62,27 +64,50 @@ public class NewsFragment extends Fragment {
             }
         });
         mCategories = getCategoriesListFromJson();
-        restoreCategoriesState();
-        initRecyclerView(view,getListFromJson(mCategories));
-
-
+        ArrayList<NewsEvent> list = getListFromJson();
+        initRecyclerView(view, list);
+        ArrayList<NewsEvent> newList = filterList(list);
+        Toast.makeText(getActivity(),"start " + newList.size(),Toast.LENGTH_SHORT).show();
+        mAdapter.updateData(newList);
         return view;
     }
-    private void restoreCategoriesState(){
+
+    private void restoreCategoriesState() {
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        for (HelpCategory category : mCategories){
-            category.setState(sharedPreferences.getBoolean(category.getName(),true));
+        if(sharedPreferences != null) {
+//            Toast.makeText(getActivity(),"catch",Toast.LENGTH_SHORT).show();
+            for (HelpCategory category : mCategories) {
+                category.setState(sharedPreferences.getBoolean(category.getName(), true));
+            }
         }
     }
 
     private void initRecyclerView(View view, ArrayList<NewsEvent> list) {
         RecyclerView recyclerView = view.findViewById(R.id.news_rv);
-        NewsItemAdapter recyclerViewAdapter = new NewsItemAdapter(view.getContext(), list);
+        mAdapter = new NewsItemAdapter(view.getContext(), list);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setAdapter(mAdapter);
+
+
     }
 
-    ArrayList<NewsEvent> getListFromJson(ArrayList<HelpCategory> categories) {
+    private ArrayList<NewsEvent> filterList(ArrayList<NewsEvent> list) {
+        restoreCategoriesState();
+        ArrayList<NewsEvent> newList = new ArrayList<>();
+        for (NewsEvent item : list) {
+            boolean isFound = false;
+            for (HelpCategory category : item.getHelpCategory()) {
+                if (!isFound && mCategories.contains(category)) {
+                    newList.add(item);
+                    isFound = true;
+                }
+            }
+        }
+        return newList;
+    }
+
+    ArrayList<NewsEvent> getListFromJson() {
 
         String json;
         ArrayList<NewsEvent> eventArrayList = new ArrayList<>();
@@ -98,30 +123,27 @@ public class NewsFragment extends Fragment {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                boolean checked = checkCategory(getArray(object.getJSONArray("helpCategory")));
+                NewsEvent event = new NewsEvent();
+                event.setId(object.getInt("id"));
+                event.setTitel(object.getString("title"));
+                event.setDateText(object.getString("dataText"));
+                event.setFoundationName(object.getString("foundationName"));
+                event.setLocation(object.getString("location"));
+                event.setPhoneNumber(object.getString("phoneNumber"));
+                event.setSupportMessageBegin(object.getString("supportMessageBegin"));
+                event.setSupportMessageEnd(object.getString("supportMessageEnd"));
+                //todo разобраться с фото! что то идет не так.
+                event.setPhotoHead(getActivity(), object.getString("photoHeadPath"));
+                event.setArticleText(object.getString("articleText"));
+                event.setArticleTextEnd(object.getString("articleTextEnd"));
+                event.setPhotoLikersPath(getActivity(), getArray(object.getJSONArray("photoLikersPath")));
+                event.setCountOfLike(object.getString("countOfLike"));
+                event.setHelpCategory(getCategoriesArray(object.getJSONArray("helpCategory")));
 
-                if(checked) {
-                    NewsEvent event = new NewsEvent();
-                    event.setId(object.getInt("id"));
-                    event.setTitel(object.getString("title"));
-                    event.setDateText(object.getString("dataText"));
-                    event.setFoundationName(object.getString("foundationName"));
-                    event.setLocation(object.getString("location"));
-                    event.setPhoneNumber(object.getString("phoneNumber"));
-                    event.setSupportMessageBegin(object.getString("supportMessageBegin"));
-                    event.setSupportMessageEnd(object.getString("supportMessageEnd"));
-                    //todo разобраться с фото! что то идет не так.
-                    event.setPhotoHead(getActivity(), object.getString("photoHeadPath"));
-                    event.setArticleText(object.getString("articleText"));
-                    event.setArticleTextEnd(object.getString("articleTextEnd"));
-                    event.setPhotoLikersPath(getActivity(), getArray(object.getJSONArray("photoLikersPath")));
-                    event.setCountOfLike(object.getString("countOfLike"));
-                    event.setHelpCategory(getArray(object.getJSONArray("helpCategory")));
-                    eventArrayList.add(event);
-                }
+                eventArrayList.add(event);
             }
 
-            Toast.makeText(getActivity(), "Json was parsed and we have " + eventArrayList.size() + "event", Toast.LENGTH_LONG).show();
+           // Toast.makeText(getActivity(), "Json was parsed and we have " + eventArrayList.size() + "event", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -130,16 +152,18 @@ public class NewsFragment extends Fragment {
         return eventArrayList;
     }
 
-    private boolean checkCategory(String[] checkList){
-        boolean checked = false;
-        for(String item : checkList){
-            for(HelpCategory category : mCategories){
-                if((item.equals(category.getName()))&& category.isState())
-                    checked = true;
+    private ArrayList<HelpCategory> getCategoriesArray(JSONArray helpCategory) throws JSONException {
+        ArrayList<HelpCategory> newList = new ArrayList<>();
+
+        for(int i = 0; i < helpCategory.length(); i++){
+            for (HelpCategory category : mCategories){
+                if(category.getName().equals(helpCategory.getString(i)))
+                    newList.add(category);
             }
         }
-        return checked;
+        return newList;
     }
+
 
     public ArrayList<HelpCategory> getCategoriesListFromJson() {
 
@@ -154,7 +178,7 @@ public class NewsFragment extends Fragment {
             json = new String(buffer, "UTF-8");
             JSONArray jsonArray = new JSONArray(json);
 
-            for(int i = 0; i < jsonArray.length(); i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
                 HelpCategory category = new HelpCategory(object.getString("name"),
                         object.getBoolean("state"));
