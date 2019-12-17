@@ -4,17 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.ViewHolder> {
 
@@ -27,24 +24,6 @@ public class FilterItemAdapter extends RecyclerView.Adapter<FilterItemAdapter.Vi
         this.categoriesList = categoriesList;
     }
 
-    public void insertData(ArrayList<HelpCategory> insertList) {
-        FilterDiffUtilCallback diffUtilCallback = new FilterDiffUtilCallback(categoriesList, insertList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback);
-
-        categoriesList.addAll(insertList);
-        diffResult.dispatchUpdatesTo(this);
-    }
-
-    public void updateData(ArrayList<HelpCategory> newList) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new FilterDiffUtilCallback(categoriesList, newList));
-        categoriesList.clear();
-        categoriesList.addAll(newList);
-        diffResult.dispatchUpdatesTo(this);
-//        categoriesList.clear();
-//        for(int i = 0; i<newList.size();i++){
-//            categoriesList.add(newList.get(i));
-//        }
-    }
 
     public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
         onItemCheckedListener = listener;

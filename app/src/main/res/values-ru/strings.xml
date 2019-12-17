@@ -37,4 +37,6 @@
     <string name="magnifying_glass">Увеличительное стекло</string>
     <string name="filter">Фильтр</string>
     <string name="help_category">Категории помощи</string>
+    <string name="link_to_org"><u>Перейти на сайт организации</u></string>
+    <string name="any_question"><u>Напишите нам</u></string>
 </resources>

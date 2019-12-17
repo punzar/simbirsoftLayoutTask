@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +38,6 @@ public class FilterFragment extends Fragment {
 
 
     public FilterFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -51,40 +49,38 @@ public class FilterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_filter, container, false);
         Toolbar toolbar = view.findViewById(R.id.filter_toolbar);
         toolbar.inflateMenu(R.menu.ok_filter_menu);
+        toolbar.setNavigationIcon(R.drawable.ic_icon_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() instanceof HelpActivity)
+                    getActivity().onBackPressed();
+            }
+        });
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-//                StringBuilder flags = new StringBuilder();
-//                for (HelpCategory category: mCategories){
-//                    flags.append(category.isState() + " ");
-//                }
-               // Toast.makeText(view.getContext(),flags,Toast.LENGTH_LONG).show();
-                //todo применить фильтр к новостям
-                if(getActivity() instanceof FilterSettingsClickListener){
-                    FilterSettingsClickListener listener =(FilterSettingsClickListener) getActivity();
+                if (getActivity() instanceof FilterSettingsClickListener) {
+                    FilterSettingsClickListener listener = (FilterSettingsClickListener) getActivity();
                     listener.setOnOkBtnListener();
                 }
-//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.frame_layout, new NewsFragment());
-//                fragmentTransaction.commit();
                 return true;
             }
         });
         mCategories = getListFromJson();
         restoreCategoriesState();
-        initRecyclerView(view,mCategories);
+        initRecyclerView(view, mCategories);
 
         return view;
     }
 
-    private void restoreCategoriesState(){
+    private void restoreCategoriesState() {
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        for (HelpCategory category : mCategories){
-            category.setState(sharedPreferences.getBoolean(category.getName(),true));
+        for (HelpCategory category : mCategories) {
+            category.setState(sharedPreferences.getBoolean(category.getName(), true));
         }
     }
 
@@ -111,14 +107,13 @@ public class FilterFragment extends Fragment {
             json = new String(buffer, "UTF-8");
             JSONArray jsonArray = new JSONArray(json);
 
-            for(int i = 0; i < jsonArray.length(); i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
                 HelpCategory category = new HelpCategory(object.getString("name"),
                         object.getBoolean("state"));
                 categoryArrayList.add(category);
             }
 
-            Toast.makeText(getActivity(), "Json was parsed and we have " + categoryArrayList.size() + "event", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -126,6 +121,7 @@ public class FilterFragment extends Fragment {
         }
         return categoryArrayList;
     }
+
     private FilterItemAdapter.OnCheckedChangeListener mOnCheckedChangeListener = new FilterItemAdapter.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(int position, boolean isChecked) {
@@ -133,7 +129,7 @@ public class FilterFragment extends Fragment {
 
             SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(mCategories.get(position).getName(),isChecked);
+            editor.putBoolean(mCategories.get(position).getName(), isChecked);
             editor.apply();
         }
     };

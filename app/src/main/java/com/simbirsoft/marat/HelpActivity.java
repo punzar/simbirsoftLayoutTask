@@ -19,13 +19,18 @@ import com.simbirsoft.marat.interfaces.NewsItemClickListener;
 public class HelpActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,
         FilterSettingsClickListener, NewsItemClickListener {
     private BottomNavigationView bottomNavigationView;
+    private boolean isBottomVisible = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+        if (savedInstanceState != null)
+            isBottomVisible = savedInstanceState.getBoolean("ISBOTTOMVISIBLE", true);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation_bar);
+        if (!isBottomVisible)
+            bottomNavigationView.setVisibility(View.GONE);
 
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
         if (currentFragment == null) {
@@ -39,11 +44,12 @@ public class HelpActivity extends AppCompatActivity implements BottomNavigationV
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
+
     }
 
     private void setFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if(addToBackStack)
+        if (addToBackStack)
             fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
@@ -77,7 +83,7 @@ public class HelpActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void setOnFilterListener() {
-        setFragment(new FilterFragment(),true);
+        setFragment(new FilterFragment(), true);
     }
 
     @Override
@@ -89,12 +95,27 @@ public class HelpActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onNewsItemCLick(NewsEvent event) {
         bottomNavigationView.setVisibility(View.GONE);
+        isBottomVisible = false;
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson =new Gson();
-        editor.putString("EVENT",gson.toJson(event));
+        Gson gson = new Gson();
+        editor.putString("EVENT", gson.toJson(event));
         editor.apply();
-        setFragment(new DetailsFragment(),true);
+        setFragment(new DetailsFragment(), true);
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("ISBOTTOMVISIBLE", isBottomVisible);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        isBottomVisible = true;
 
     }
 }

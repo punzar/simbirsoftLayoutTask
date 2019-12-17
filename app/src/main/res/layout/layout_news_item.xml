@@ -3,8 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <!--ImageView для смены картинки менять background-->
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:orientation="vertical"
+    android:background="@color/white">
     <ImageView
         android:id="@+id/news_item_iv"
         android:layout_width="wrap_content"
@@ -76,6 +79,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:textSize="12sp"
+            android:layout_gravity="center_vertical"
             android:text="Осталось 13 дней (21.09 – 20.10)"
             android:textColor="@color/white" />
 

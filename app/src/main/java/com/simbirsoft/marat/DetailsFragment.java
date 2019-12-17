@@ -3,15 +3,24 @@ package com.simbirsoft.marat;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.simbirsoft.marat.interfaces.FilterSettingsClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,17 +34,36 @@ public class DetailsFragment extends Fragment {
 
 
     public DetailsFragment() {
-        // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_details,container,false);
+        View view = inflater.inflate(R.layout.fragment_details, container, false);
+        Toolbar toolbar = view.findViewById(R.id.details_toolbar);
+        toolbar.inflateMenu(R.menu.details_menu);
+        toolbar.setNavigationIcon(R.drawable.ic_icon_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() instanceof HelpActivity)
+                    getActivity().onBackPressed();
+            }
+        });
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return true;
+            }
+        });
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String json = sharedPreferences.getString("EVENT","oops");
+        String json = sharedPreferences.getString("EVENT", "oops");
 
         TextView tvHead = view.findViewById(R.id.details_head_tv);
         TextView tvDate = view.findViewById(R.id.details_date_tv);
@@ -65,14 +93,20 @@ public class DetailsFragment extends Fragment {
             tvFAQ1.setText(object.getString("supportMessageBegin"));
             tvCountOfLike.setText(object.getString("countOfLike"));
 
-            object.getString("photoHead");
+            toolbar.setTitle(object.getString("titel"));
+
+            ivBody.setImageDrawable(getDrawable(object.getString("photoHead")));
 
             JSONArray jsonArray = object.getJSONArray("photoLikersPath");
             String[] photoArray = new String[jsonArray.length()];
-            for(int i = 0; i<jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 photoArray[i] = (String) jsonArray.get(i);
             }
-
+            iv1.setImageDrawable(getDrawable(photoArray[0]));
+            iv2.setImageDrawable(getDrawable(photoArray[1]));
+            iv3.setImageDrawable(getDrawable(photoArray[2]));
+            iv4.setImageDrawable(getDrawable(photoArray[3]));
+            iv5.setImageDrawable(getDrawable(photoArray[4]));
 
 
         } catch (JSONException e) {
@@ -81,6 +115,14 @@ public class DetailsFragment extends Fragment {
 
         return view;
 
+    }
+
+    private Drawable getDrawable(String photoName) {
+        String pageName = getActivity().getPackageName();
+        Resources resources = getActivity().getResources();
+        int rID = resources.getIdentifier(photoName, "drawable", pageName);
+        Drawable drawable = ContextCompat.getDrawable(getActivity(), rID);
+        return drawable;
     }
 
 }

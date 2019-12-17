@@ -1,9 +1,5 @@
 package com.simbirsoft.marat;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-
-import java.io.File;
 import java.util.ArrayList;
 
 public class NewsEvent {
@@ -15,16 +11,15 @@ public class NewsEvent {
     String phoneNumber;
     String supportMessageBegin;
     String supportMessageEnd;
-    Drawable photoHead;
+    String photoHead;
     String articleText;
     String articleTextEnd;
-    ArrayList<Drawable> photoLikersPath;
+    ArrayList<String> photoLikersPath;
     String countOfLike;
     ArrayList<HelpCategory> helpCategory;
 
-    public void setPhotoHead(Context context, String photoHead) {
-        File drawableFile = new File(context.getFilesDir().getAbsolutePath() + photoHead);
-        this.photoHead = Drawable.createFromPath(drawableFile.getAbsolutePath());
+    public void setPhotoHead(String photoHead) {
+        this.photoHead = photoHead;
     }
 
     public String getArticleTextEnd() {
@@ -35,21 +30,20 @@ public class NewsEvent {
         this.articleTextEnd = articleTextEnd;
     }
 
-    public Drawable getPhotoHead() {
+    public String getPhotoHead() {
         return photoHead;
     }
 
-    public ArrayList<Drawable> getPhotoLikersPath() {
+    public ArrayList<String> getPhotoLikersPath() {
         return photoLikersPath;
     }
 
-    public void setPhotoLikersPath(Context context, String[] photoLikers) {
+    public void setPhotoLikersPath(String[] photoLikers) {
 
-        ArrayList<Drawable> drawableArrayList = new ArrayList<>();
+        ArrayList<String> drawableArrayList = new ArrayList<>();
 
-        for(int i = 0; i < photoLikers.length; i++){
-            File drawableFile = new File(context.getFilesDir().getAbsolutePath() + photoLikers[i]);
-            drawableArrayList.add(Drawable.createFromPath(drawableFile.getAbsolutePath()));
+        for (int i = 0; i < photoLikers.length; i++) {
+            drawableArrayList.add(photoLikers[i]);
         }
 
         this.photoLikersPath = drawableArrayList;
@@ -100,16 +94,6 @@ public class NewsEvent {
         this.countOfLike = countOfLike;
     }
 
-//    public void setHelpCategory(String[] helpCategoryArray) {
-//
-//        ArrayList<HelpCategory> helpCategories = new ArrayList<>();
-//
-//        for(int i = 0; i < helpCategoryArray.length; i++) {
-//            helpCategories.add(new HelpCategory(helpCategoryArray[i]));
-//        }
-//
-//        this.helpCategory = helpCategories;
-//    }
     public void setHelpCategory(ArrayList<HelpCategory> helpCategoryArray) {
         helpCategory = helpCategoryArray;
     }

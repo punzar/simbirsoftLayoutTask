@@ -28,7 +28,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -42,14 +41,13 @@ public class NewsFragment extends Fragment {
 
 
     public NewsFragment() {
-        // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        //getListFromJson();
     }
 
     @Override
@@ -61,14 +59,10 @@ public class NewsFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getActivity(), "Filter button is clicked!", Toast.LENGTH_LONG).show();
-                if(getActivity() instanceof FilterSettingsClickListener){
-                    FilterSettingsClickListener listener =(FilterSettingsClickListener) getActivity();
+                if (getActivity() instanceof FilterSettingsClickListener) {
+                    FilterSettingsClickListener listener = (FilterSettingsClickListener) getActivity();
                     listener.setOnFilterListener();
                 }
-//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.frame_layout, new FilterFragment());
-//                fragmentTransaction.commit();
                 return true;
             }
         });
@@ -76,7 +70,6 @@ public class NewsFragment extends Fragment {
         mNewsEvents = getListFromJson();
         initRecyclerView(view, mNewsEvents);
         ArrayList<NewsEvent> newList = filterList(mNewsEvents);
-        Toast.makeText(getActivity(),"start " + newList.size(),Toast.LENGTH_SHORT).show();
         mAdapter.updateData(newList);
         mNewsEvents = newList;
 
@@ -85,8 +78,7 @@ public class NewsFragment extends Fragment {
 
     private void restoreCategoriesState() {
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        if(sharedPreferences != null) {
-//            Toast.makeText(getActivity(),"catch",Toast.LENGTH_SHORT).show();
+        if (sharedPreferences != null) {
             for (HelpCategory category : mCategories) {
                 category.setState(sharedPreferences.getBoolean(category.getName(), true));
             }
@@ -98,10 +90,8 @@ public class NewsFragment extends Fragment {
         NewsEventListenerable listener = new NewsEventListenerable() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(view.getContext(),"item # " + position + " was clicked",Toast.LENGTH_SHORT).show();
-                int eventId = mNewsEvents.get(position).getId();
                 NewsEvent event = mNewsEvents.get(position);
-                if(getActivity() instanceof NewsItemClickListener) {
+                if (getActivity() instanceof NewsItemClickListener) {
                     NewsItemClickListener clickListener = (NewsItemClickListener) getActivity();
                     clickListener.onNewsItemCLick(event);
                 }
@@ -156,18 +146,16 @@ public class NewsFragment extends Fragment {
                 event.setPhoneNumber(object.getString("phoneNumber"));
                 event.setSupportMessageBegin(object.getString("supportMessageBegin"));
                 event.setSupportMessageEnd(object.getString("supportMessageEnd"));
-                //todo разобраться с фото! что то идет не так.
-                event.setPhotoHead(getActivity(), object.getString("photoHeadPath"));
+                event.setPhotoHead(object.getString("photoHeadPath"));
                 event.setArticleText(object.getString("articleText"));
                 event.setArticleTextEnd(object.getString("articleTextEnd"));
-                event.setPhotoLikersPath(getActivity(), getArray(object.getJSONArray("photoLikersPath")));
+                event.setPhotoLikersPath(getArray(object.getJSONArray("photoLikersPath")));
                 event.setCountOfLike(object.getString("countOfLike"));
                 event.setHelpCategory(getCategoriesArray(object.getJSONArray("helpCategory")));
 
                 eventArrayList.add(event);
             }
 
-           // Toast.makeText(getActivity(), "Json was parsed and we have " + eventArrayList.size() + "event", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -179,9 +167,9 @@ public class NewsFragment extends Fragment {
     private ArrayList<HelpCategory> getCategoriesArray(JSONArray helpCategory) throws JSONException {
         ArrayList<HelpCategory> newList = new ArrayList<>();
 
-        for(int i = 0; i < helpCategory.length(); i++){
-            for (HelpCategory category : mCategories){
-                if(category.getName().equals(helpCategory.getString(i)))
+        for (int i = 0; i < helpCategory.length(); i++) {
+            for (HelpCategory category : mCategories) {
+                if (category.getName().equals(helpCategory.getString(i)))
                     newList.add(category);
             }
         }

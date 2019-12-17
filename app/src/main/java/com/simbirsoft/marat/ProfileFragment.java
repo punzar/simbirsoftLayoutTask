@@ -44,7 +44,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     final static int CHOOSE_IMAGE_REQUEST = 2;
 
     public ProfileFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -71,7 +70,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             Picasso.get().load(new File(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
 
         if (mUriString != null && !mIsDelete)
-            Picasso.get().load(Uri.parse(mUriString)).fit().centerCrop().rotate(90).into(mProfileImage);
+            Picasso.get().load(Uri.parse(mUriString)).fit().centerCrop().into(mProfileImage);
 
 
         if (mIsDelete)
@@ -96,7 +95,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         break;
                     case R.id.dialogTvTakePhoto:
                         takePictureIntent(R.id.dialogTvTakePhoto);
-                        Toast.makeText(getActivity(),"TAKE PHOTO CLICKED!", Toast.LENGTH_LONG).show();
                         mIsDelete = false;
                         mUriString = null;
                         mChangePhotoDialog.cancel();
@@ -113,7 +111,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void takePictureIntent(int id) {
-        switch (id){
+        switch (id) {
             case R.id.dialogTvTakePhoto:
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -137,7 +135,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case R.id.dialogTvChoosePhoto:
                 Intent choosePhotoIntent = new Intent(Intent.ACTION_PICK);
                 choosePhotoIntent.setType("image/*");
-                startActivityForResult(choosePhotoIntent,CHOOSE_IMAGE_REQUEST);
+                startActivityForResult(choosePhotoIntent, CHOOSE_IMAGE_REQUEST);
                 break;
         }
 
@@ -155,29 +153,29 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case TAKE_IMAGE_REQUEST:
-                if(resultCode == RESULT_OK)
+                if (resultCode == RESULT_OK)
                     setmProfileImage(TAKE_IMAGE_REQUEST);
                 break;
             case CHOOSE_IMAGE_REQUEST:
-                if(resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
                     mUriString = selectedImage.toString();
                     setmProfileImage(CHOOSE_IMAGE_REQUEST);
-                   break;
+                    break;
                 }
         }
     }
 
     private void setmProfileImage(int requestCode) {
-        switch (requestCode){
+        switch (requestCode) {
             case TAKE_IMAGE_REQUEST:
                 Picasso.get().load(new File(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
                 break;
             case CHOOSE_IMAGE_REQUEST:
-              //todo  обрабатывать ширину и высоту фото
-                Picasso.get().load(Uri.parse(mUriString)).fit().centerCrop().rotate(90).into(mProfileImage);
+                //todo  обрабатывать ширину и высоту фото
+                Picasso.get().load(Uri.parse(mUriString)).fit().centerCrop().into(mProfileImage);
                 break;
         }
 

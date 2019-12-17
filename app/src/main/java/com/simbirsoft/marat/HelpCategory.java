@@ -2,7 +2,6 @@ package com.simbirsoft.marat;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 
 class HelpCategory {
     private int id;
@@ -29,8 +28,6 @@ class HelpCategory {
 
     @Override
     public boolean equals(@Nullable Object obj) {
-//        if (this == obj)
-//            return true;
         if (obj == null || obj.getClass() != this.getClass())
             return false;
 

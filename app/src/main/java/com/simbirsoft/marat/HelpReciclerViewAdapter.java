@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 public class HelpReciclerViewAdapter extends RecyclerView.Adapter<HelpReciclerViewAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<String> mTexts = new ArrayList<>();
-    private ArrayList<Integer> mImages = new ArrayList<>();
+    private ArrayList<String> mTexts;
+    private ArrayList<Integer> mImages;
 
     public HelpReciclerViewAdapter(Context mContext, ArrayList<String> mTexts, ArrayList<Integer> mImages) {
         this.mContext = mContext;

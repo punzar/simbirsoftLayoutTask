@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class NKORecyclerViewAdapter extends RecyclerView.Adapter<NKORecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<String> texts = new ArrayList<>();
+    private ArrayList<String> texts;
 
 
     public NKORecyclerViewAdapter(Context mContext, ArrayList<String> texts) {

@@ -1,6 +1,7 @@
 package com.simbirsoft.marat;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,18 +48,27 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_news_item, parent, false);
-        return new ViewHolder(view,mListener);
+        return new ViewHolder(view, mListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.imageView.setBackground(dataSource.get(position).getPhotoHead());
+        String photoHead = dataSource.get(position).getPhotoHead();
+        holder.imageView.setBackground(getDrawable(photoHead));
         holder.headTextView.setText(dataSource.get(position).getTitel());
         holder.bodyTextView.setText(dataSource.get(position).getArticleText());
         holder.dateTextView.setText(dataSource.get(position).getDateText());
 
-
     }
+
+    Drawable getDrawable(String name) {
+        String pageName = context.getPackageName();
+        Resources resources = context.getResources();
+        int rID = resources.getIdentifier(name, "drawable", pageName);
+        Drawable drawable = ContextCompat.getDrawable(context, rID);
+        return drawable;
+    }
+
 
     @Override
     public int getItemCount() {
