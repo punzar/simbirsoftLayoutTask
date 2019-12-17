@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.simbirsoft.marat.interfaces.FilterSettingsClickListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,15 +58,19 @@ public class FilterFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                StringBuilder flags = new StringBuilder();
-                for (HelpCategory category: mCategories){
-                    flags.append(category.isState() + " ");
-                }
+//                StringBuilder flags = new StringBuilder();
+//                for (HelpCategory category: mCategories){
+//                    flags.append(category.isState() + " ");
+//                }
                // Toast.makeText(view.getContext(),flags,Toast.LENGTH_LONG).show();
                 //todo применить фильтр к новостям
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frame_layout, new NewsFragment());
-                fragmentTransaction.commit();
+                if(getActivity() instanceof FilterSettingsClickListener){
+                    FilterSettingsClickListener listener =(FilterSettingsClickListener) getActivity();
+                    listener.setOnOkBtnListener();
+                }
+//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.frame_layout, new NewsFragment());
+//                fragmentTransaction.commit();
                 return true;
             }
         });

@@ -17,11 +17,13 @@ import java.util.List;
 public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ViewHolder> {
 
     Context context;
+    NewsEventListenerable mListener;
     List<NewsEvent> dataSource;
 
-    public NewsItemAdapter(Context context, List<NewsEvent> dataSource) {
+    public NewsItemAdapter(Context context, List<NewsEvent> dataSource, NewsEventListenerable listener) {
         this.context = context;
         this.dataSource = dataSource;
+        mListener = listener;
     }
 
     public void insertData(List<NewsEvent> insertList) {
@@ -44,7 +46,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_news_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view,mListener);
     }
 
     @Override
@@ -62,17 +64,30 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ViewHo
         return dataSource.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         TextView headTextView, bodyTextView, dateTextView;
+        NewsEventListenerable mListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, NewsEventListenerable listener) {
             super(itemView);
+            mListener = listener;
             this.imageView = itemView.findViewById(R.id.news_item_iv);
             this.headTextView = itemView.findViewById(R.id.news_item_tv_head);
             this.bodyTextView = itemView.findViewById(R.id.news_item_tv);
             this.dateTextView = itemView.findViewById(R.id.news_item_tv_date);
+            itemView.setOnClickListener(this);
 
         }
+
+        @Override
+        public void onClick(View view) {
+            mListener.onClick(view, getAdapterPosition());
+        }
     }
+
+}
+
+interface NewsEventListenerable {
+    void onClick(View view, int position);
 }

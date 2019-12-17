@@ -19,12 +19,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.simbirsoft.marat.interfaces.FilterSettingsClickListener;
+import com.simbirsoft.marat.interfaces.NewsItemClickListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -33,6 +37,7 @@ import java.util.ArrayList;
  */
 public class NewsFragment extends Fragment {
     ArrayList<HelpCategory> mCategories;
+    ArrayList<NewsEvent> mNewsEvents;
     NewsItemAdapter mAdapter;
 
 
@@ -57,18 +62,24 @@ public class NewsFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Toast.makeText(getActivity(), "Filter button is clicked!", Toast.LENGTH_LONG).show();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frame_layout, new FilterFragment());
-                fragmentTransaction.commit();
+                if(getActivity() instanceof FilterSettingsClickListener){
+                    FilterSettingsClickListener listener =(FilterSettingsClickListener) getActivity();
+                    listener.setOnFilterListener();
+                }
+//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.frame_layout, new FilterFragment());
+//                fragmentTransaction.commit();
                 return true;
             }
         });
         mCategories = getCategoriesListFromJson();
-        ArrayList<NewsEvent> list = getListFromJson();
-        initRecyclerView(view, list);
-        ArrayList<NewsEvent> newList = filterList(list);
+        mNewsEvents = getListFromJson();
+        initRecyclerView(view, mNewsEvents);
+        ArrayList<NewsEvent> newList = filterList(mNewsEvents);
         Toast.makeText(getActivity(),"start " + newList.size(),Toast.LENGTH_SHORT).show();
         mAdapter.updateData(newList);
+        mNewsEvents = newList;
+
         return view;
     }
 
@@ -84,7 +95,20 @@ public class NewsFragment extends Fragment {
 
     private void initRecyclerView(View view, ArrayList<NewsEvent> list) {
         RecyclerView recyclerView = view.findViewById(R.id.news_rv);
-        mAdapter = new NewsItemAdapter(view.getContext(), list);
+        NewsEventListenerable listener = new NewsEventListenerable() {
+            @Override
+            public void onClick(View view, int position) {
+                Toast.makeText(view.getContext(),"item # " + position + " was clicked",Toast.LENGTH_SHORT).show();
+                int eventId = mNewsEvents.get(position).getId();
+                NewsEvent event = mNewsEvents.get(position);
+                if(getActivity() instanceof NewsItemClickListener) {
+                    NewsItemClickListener clickListener = (NewsItemClickListener) getActivity();
+                    clickListener.onNewsItemCLick(event);
+                }
+
+            }
+        };
+        mAdapter = new NewsItemAdapter(view.getContext(), list, listener);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(mAdapter);
