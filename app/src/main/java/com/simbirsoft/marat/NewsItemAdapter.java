@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,6 +80,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ViewHo
         ImageView imageView;
         TextView headTextView, bodyTextView, dateTextView;
         NewsEventListenerable mListener;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView, NewsEventListenerable listener) {
             super(itemView);
@@ -87,6 +89,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ViewHo
             this.headTextView = itemView.findViewById(R.id.news_item_tv_head);
             this.bodyTextView = itemView.findViewById(R.id.news_item_tv);
             this.dateTextView = itemView.findViewById(R.id.news_item_tv_date);
+            this.cardView = itemView.findViewById(R.id.news_item_cardview);
             itemView.setOnClickListener(this);
 
         }

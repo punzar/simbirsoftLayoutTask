@@ -26,6 +26,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,8 +64,12 @@ public class DetailsFragment extends Fragment {
                 return true;
             }
         });
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String json = sharedPreferences.getString("EVENT", "oops");
+
+        Bundle bundle = this.getArguments();
+        NewsEvent newsEvent = bundle.getParcelable("NewsEvent");
+
+//        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        String json = sharedPreferences.getString("EVENT", "oops");
 
         TextView tvHead = view.findViewById(R.id.details_head_tv);
         TextView tvDate = view.findViewById(R.id.details_date_tv);
@@ -81,37 +87,59 @@ public class DetailsFragment extends Fragment {
         ImageView iv4 = view.findViewById(R.id.details_4_iv);
         ImageView iv5 = view.findViewById(R.id.details_5_iv);
 
-        try {
-            JSONObject object = new JSONObject(json);
-            tvHead.setText(object.getString("titel"));
-            tvDate.setText(object.getString("dateText"));
-            tvFoundation.setText(object.getString("foundationName"));
-            tvLocation.setText(object.getString("Location"));
-            tvPhone.setText(object.getString("phoneNumber"));
-            tvBodyBegin.setText(object.getString("articleText"));
-            tvBodyEnd.setText(object.getString("articleTextEnd"));
-            tvFAQ1.setText(object.getString("supportMessageBegin"));
-            tvCountOfLike.setText(object.getString("countOfLike"));
 
-            toolbar.setTitle(object.getString("titel"));
+        tvHead.setText(newsEvent.getTitel());
+        tvDate.setText(newsEvent.getDateText());
+        tvFoundation.setText(newsEvent.getFoundationName());
+        tvLocation.setText(newsEvent.getLocation());
+        tvPhone.setText(newsEvent.getPhoneNumber());
+        tvBodyBegin.setText(newsEvent.getArticleText());
+        tvBodyEnd.setText(newsEvent.getArticleTextEnd());
+        tvFAQ1.setText(newsEvent.getSupportMessageBegin());
+        tvCountOfLike.setText(newsEvent.getCountOfLike());
+        toolbar.setTitle(newsEvent.getTitel());
 
-            ivBody.setImageDrawable(getDrawable(object.getString("photoHead")));
-
-            JSONArray jsonArray = object.getJSONArray("photoLikersPath");
-            String[] photoArray = new String[jsonArray.length()];
-            for (int i = 0; i < jsonArray.length(); i++) {
-                photoArray[i] = (String) jsonArray.get(i);
-            }
-            iv1.setImageDrawable(getDrawable(photoArray[0]));
-            iv2.setImageDrawable(getDrawable(photoArray[1]));
-            iv3.setImageDrawable(getDrawable(photoArray[2]));
-            iv4.setImageDrawable(getDrawable(photoArray[3]));
-            iv5.setImageDrawable(getDrawable(photoArray[4]));
+        ivBody.setImageDrawable(getDrawable(newsEvent.getPhotoHead()));
+        ArrayList<String> photoPath = newsEvent.getPhotoLikersPath();
+        iv1.setImageDrawable(getDrawable(photoPath.get(0)));
+        iv2.setImageDrawable(getDrawable(photoPath.get(1)));
+        iv3.setImageDrawable(getDrawable(photoPath.get(2)));
+        iv4.setImageDrawable(getDrawable(photoPath.get(3)));
+        iv5.setImageDrawable(getDrawable(photoPath.get(4)));
 
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+//        try {
+//            JSONObject object = new JSONObject(json);
+//            tvHead.setText(object.getString("titel"));
+//            tvDate.setText(object.getString("dateText"));
+//            tvFoundation.setText(object.getString("foundationName"));
+//            tvLocation.setText(object.getString("Location"));
+//            tvPhone.setText(object.getString("phoneNumber"));
+//            tvBodyBegin.setText(object.getString("articleText"));
+//            tvBodyEnd.setText(object.getString("articleTextEnd"));
+//            tvFAQ1.setText(object.getString("supportMessageBegin"));
+//            tvCountOfLike.setText(object.getString("countOfLike"));
+//
+//            toolbar.setTitle(object.getString("titel"));
+//
+//            ivBody.setImageDrawable(getDrawable(object.getString("photoHead")));
+//
+//            JSONArray jsonArray = object.getJSONArray("photoLikersPath");
+//            String[] photoArray = new String[jsonArray.length()];
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                photoArray[i] = (String) jsonArray.get(i);
+//            }
+//            iv1.setImageDrawable(getDrawable(photoArray[0]));
+//            iv2.setImageDrawable(getDrawable(photoArray[1]));
+//            iv3.setImageDrawable(getDrawable(photoArray[2]));
+//            iv4.setImageDrawable(getDrawable(photoArray[3]));
+//            iv5.setImageDrawable(getDrawable(photoArray[4]));
+//
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
         return view;
 

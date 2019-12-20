@@ -141,8 +141,11 @@
 
         <ImageView
             android:id="@+id/details_photo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="@dimen/head_padding"
+            android:layout_marginEnd="@dimen/head_padding"
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

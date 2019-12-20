@@ -95,13 +95,21 @@ public class HelpActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onNewsItemCLick(NewsEvent event) {
         bottomNavigationView.setVisibility(View.GONE);
+        //todo
         isBottomVisible = false;
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        editor.putString("EVENT", gson.toJson(event));
-        editor.apply();
-        setFragment(new DetailsFragment(), true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("NewsEvent", event);
+
+        Fragment detailsFragment = new DetailsFragment();
+        detailsFragment.setArguments(bundle);
+
+//        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        Gson gson = new Gson();
+//        editor.putString("EVENT", gson.toJson(event));
+//        editor.apply();
+
+        setFragment(detailsFragment, true);
 
     }
 

@@ -93,6 +93,7 @@ public class NewsFragment extends Fragment {
                 NewsEvent event = mNewsEvents.get(position);
                 if (getActivity() instanceof NewsItemClickListener) {
                     NewsItemClickListener clickListener = (NewsItemClickListener) getActivity();
+
                     clickListener.onNewsItemCLick(event);
                 }
 
