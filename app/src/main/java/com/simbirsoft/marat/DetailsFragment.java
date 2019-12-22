@@ -12,7 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,11 +42,29 @@ public class DetailsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
+    public void onAttach(@NonNull final Context context) {
         super.onAttach(context);
-        if(context instanceof HelpActivity){
-            HelpActivity activity = (HelpActivity)context;
-            activity.hideBottomNavigation(false);
+        if (context instanceof HelpActivity) {
+            HelpActivity activity = (HelpActivity) context;
+            if (activity.getLifecycle().getCurrentState() == Lifecycle.State.RESUMED) {
+                activity.hideBottomNavigation(false);
+            }else {
+                //not pretty but work
+                //when orientation changing app catch Exception without this case
+                final Handler handler = new Handler();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        HelpActivity activity = (HelpActivity) context;
+                        while (!(activity.getLifecycle().getCurrentState() == Lifecycle.State.RESUMED)){
+
+                        }
+                        activity.hideBottomNavigation(false);
+                    }
+                });
+
+            }
+
         }
     }
 
@@ -125,40 +145,6 @@ public class DetailsFragment extends Fragment {
         iv3.setImageDrawable(getDrawable(photoPath.get(2)));
         iv4.setImageDrawable(getDrawable(photoPath.get(3)));
         iv5.setImageDrawable(getDrawable(photoPath.get(4)));
-
-
-
-//        try {
-//            JSONObject object = new JSONObject(json);
-//            tvHead.setText(object.getString("titel"));
-//            tvDate.setText(object.getString("dateText"));
-//            tvFoundation.setText(object.getString("foundationName"));
-//            tvLocation.setText(object.getString("Location"));
-//            tvPhone.setText(object.getString("phoneNumber"));
-//            tvBodyBegin.setText(object.getString("articleText"));
-//            tvBodyEnd.setText(object.getString("articleTextEnd"));
-//            tvFAQ1.setText(object.getString("supportMessageBegin"));
-//            tvCountOfLike.setText(object.getString("countOfLike"));
-//
-//            toolbar.setTitle(object.getString("titel"));
-//
-//            ivBody.setImageDrawable(getDrawable(object.getString("photoHead")));
-//
-//            JSONArray jsonArray = object.getJSONArray("photoLikersPath");
-//            String[] photoArray = new String[jsonArray.length()];
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                photoArray[i] = (String) jsonArray.get(i);
-//            }
-//            iv1.setImageDrawable(getDrawable(photoArray[0]));
-//            iv2.setImageDrawable(getDrawable(photoArray[1]));
-//            iv3.setImageDrawable(getDrawable(photoArray[2]));
-//            iv4.setImageDrawable(getDrawable(photoArray[3]));
-//            iv5.setImageDrawable(getDrawable(photoArray[4]));
-//
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
 
         return view;
 
