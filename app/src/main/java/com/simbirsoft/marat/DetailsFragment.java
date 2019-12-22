@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -36,6 +37,24 @@ public class DetailsFragment extends Fragment {
 
 
     public DetailsFragment() {
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof HelpActivity){
+            HelpActivity activity = (HelpActivity)context;
+            activity.hideBottomNavigation(false);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if(getActivity() instanceof HelpActivity){
+            HelpActivity activity = (HelpActivity) getActivity();
+            activity.hideBottomNavigation(true);
+        }
     }
 
     @Override
