@@ -15,16 +15,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.simbirsoft.marat.interfaces.FilterSettingsClickListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
@@ -70,11 +67,32 @@ public class FilterFragment extends Fragment {
                 return true;
             }
         });
-        mCategories = getListFromJson();
+
+        Type typeHelpCategory = new TypeToken<ArrayList<HelpCategory>>() {
+        }.getType();
+        mCategories = getEventsList(view.getContext(),
+                typeHelpCategory, "event_category.json");
         restoreCategoriesState();
         initRecyclerView(view, mCategories);
 
         return view;
+    }
+
+    private <T> ArrayList<T> getEventsList(Context context, Type typeHelpCategory, String s) {
+        String json;
+        ArrayList<T> list = new ArrayList<>();
+        try (InputStream inputStream = context.getAssets().open(s)) {
+
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+
+            json = new String(buffer, "UTF-8");
+            list = new JsonFromAssets().getNewsEvent(json, typeHelpCategory);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     private void restoreCategoriesState() {
@@ -92,34 +110,6 @@ public class FilterFragment extends Fragment {
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.setOnCheckedChangeListener(mOnCheckedChangeListener);
 
-    }
-
-    public ArrayList<HelpCategory> getListFromJson() {
-
-        String json;
-        ArrayList<HelpCategory> categoryArrayList = new ArrayList<>();
-
-        try (InputStream inputStream = getActivity().getAssets().open("event_category.json")) {
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-
-            json = new String(buffer, "UTF-8");
-            JSONArray jsonArray = new JSONArray(json);
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject object = jsonArray.getJSONObject(i);
-                HelpCategory category = new HelpCategory(object.getString("name"),
-                        object.getBoolean("state"));
-                categoryArrayList.add(category);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return categoryArrayList;
     }
 
     private FilterItemAdapter.OnCheckedChangeListener mOnCheckedChangeListener = new FilterItemAdapter.OnCheckedChangeListener() {

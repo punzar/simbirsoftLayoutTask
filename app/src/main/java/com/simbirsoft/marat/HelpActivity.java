@@ -5,14 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
 import com.simbirsoft.marat.interfaces.FilterSettingsClickListener;
 import com.simbirsoft.marat.interfaces.NewsItemClickListener;
 
@@ -86,10 +83,10 @@ public class HelpActivity extends AppCompatActivity implements BottomNavigationV
         setFragment(new NewsFragment());
     }
 
-    public void hideBottomNavigation(boolean isVisible){
-        if(isVisible){
+    public void hideBottomNavigation(boolean isVisible) {
+        if (isVisible) {
             bottomNavigationView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             bottomNavigationView.setVisibility(View.GONE);
         }
     }
@@ -98,7 +95,6 @@ public class HelpActivity extends AppCompatActivity implements BottomNavigationV
     public void onNewsItemCLick(NewsEvent event) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("NewsEvent", event);
-
         Fragment detailsFragment = new DetailsFragment();
         detailsFragment.setArguments(bundle);
 

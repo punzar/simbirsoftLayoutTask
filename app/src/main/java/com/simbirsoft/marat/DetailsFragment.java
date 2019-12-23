@@ -2,7 +2,6 @@ package com.simbirsoft.marat;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,13 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.simbirsoft.marat.interfaces.FilterSettingsClickListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -48,7 +40,7 @@ public class DetailsFragment extends Fragment {
             HelpActivity activity = (HelpActivity) context;
             if (activity.getLifecycle().getCurrentState() == Lifecycle.State.RESUMED) {
                 activity.hideBottomNavigation(false);
-            }else {
+            } else {
                 //not pretty but work
                 //when orientation changing app catch Exception without this case
                 final Handler handler = new Handler();
@@ -56,7 +48,7 @@ public class DetailsFragment extends Fragment {
                     @Override
                     public void run() {
                         HelpActivity activity = (HelpActivity) context;
-                        while (!(activity.getLifecycle().getCurrentState() == Lifecycle.State.RESUMED)){
+                        while (!(activity.getLifecycle().getCurrentState() == Lifecycle.State.RESUMED)) {
 
                         }
                         activity.hideBottomNavigation(false);
@@ -71,7 +63,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        if(getActivity() instanceof HelpActivity){
+        if (getActivity() instanceof HelpActivity) {
             HelpActivity activity = (HelpActivity) getActivity();
             activity.hideBottomNavigation(true);
         }
@@ -106,9 +98,6 @@ public class DetailsFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         NewsEvent newsEvent = bundle.getParcelable("NewsEvent");
-
-//        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        String json = sharedPreferences.getString("EVENT", "oops");
 
         TextView tvHead = view.findViewById(R.id.details_head_tv);
         TextView tvDate = view.findViewById(R.id.details_date_tv);

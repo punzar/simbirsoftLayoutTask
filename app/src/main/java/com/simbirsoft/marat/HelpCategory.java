@@ -6,27 +6,12 @@ import android.os.Parcelable;
 import androidx.annotation.Nullable;
 
 
-class HelpCategory implements Parcelable {
-    private int id;
+public class HelpCategory implements Parcelable {
     private String name;
     private boolean state;
-    private static int countId = 0;
 
     public HelpCategory(String name) {
         this.name = name;
-        id = countId;
-        countId++;
-    }
-
-    public HelpCategory(String name, boolean state) {
-        this.name = name;
-        this.state = state;
-        id = countId;
-        countId++;
-    }
-
-    public int getId() {
-        return id;
     }
 
     @Override
@@ -35,7 +20,7 @@ class HelpCategory implements Parcelable {
             return false;
 
         HelpCategory categories = (HelpCategory) obj;
-        return categories.getName().equals(name) && state;
+        return categories.getName().equals(name) && (state == categories.isState());
     }
 
     public void setName(String name) {
@@ -55,7 +40,6 @@ class HelpCategory implements Parcelable {
     }
 
     protected HelpCategory(Parcel in) {
-        id = in.readInt();
         name = in.readString();
         state = in.readByte() != 0x00;
     }
@@ -67,7 +51,6 @@ class HelpCategory implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeByte((byte) (state ? 0x01 : 0x00));
     }
