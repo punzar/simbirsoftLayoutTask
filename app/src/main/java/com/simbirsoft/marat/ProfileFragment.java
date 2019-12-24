@@ -1,7 +1,5 @@
 package com.simbirsoft.marat;
 
-
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,9 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.simbirsoft.marat.interfaces.PhotoSettingsListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -34,14 +32,14 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements View.OnClickListener {
+public class ProfileFragment extends Fragment implements View.OnClickListener, PhotoSettingsListener {
     ImageView mProfileImage;
-    Dialog mChangePhotoDialog;
     String mCurrentPhotoPath;
     boolean mIsDelete;
     String mUriString;
     final static int TAKE_IMAGE_REQUEST = 1;
     final static int CHOOSE_IMAGE_REQUEST = 2;
+    final static String TAG = "PROFILE";
 
     public ProfileFragment() {
     }
@@ -81,35 +79,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    private void dialogClickListener(View view) {
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.dialogTvChoosePhoto:
-                        takePictureIntent(R.id.dialogTvChoosePhoto);
-                        mIsDelete = false;
-                        mCurrentPhotoPath = null;
-                        mChangePhotoDialog.cancel();
-                        break;
-                    case R.id.dialogTvTakePhoto:
-                        takePictureIntent(R.id.dialogTvTakePhoto);
-                        mIsDelete = false;
-                        mUriString = null;
-                        mChangePhotoDialog.cancel();
-                        break;
-                    case R.id.dialogTvDelete:
-                        mProfileImage.setImageResource(R.drawable.ic_user_icon_default);
-                        mIsDelete = true;
-                        mChangePhotoDialog.cancel();
-
-                        break;
-                }
-            }
-        });
-    }
-
     private void takePictureIntent(int id) {
         switch (id) {
             case R.id.dialogTvTakePhoto:
@@ -144,7 +113,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
@@ -183,19 +152,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        mChangePhotoDialog = new Dialog(getActivity());
-        mChangePhotoDialog.setContentView(R.layout.dialog_profile_set_photo);
-
-        TextView tvChosePhoto = mChangePhotoDialog.findViewById(R.id.dialogTvChoosePhoto);
-        TextView tvTakePhoto = mChangePhotoDialog.findViewById(R.id.dialogTvTakePhoto);
-        TextView tvDelete = mChangePhotoDialog.findViewById(R.id.dialogTvDelete);
-
-        dialogClickListener(tvChosePhoto);
-        dialogClickListener(tvTakePhoto);
-        dialogClickListener(tvDelete);
-
-        mChangePhotoDialog.show();
-
+        PhotoSettingsDialogFragment dialogFragment = new PhotoSettingsDialogFragment();
+        dialogFragment.show(getChildFragmentManager(), "DIALOG");
     }
 
     @Override
@@ -207,4 +165,23 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    @Override
+    public void onItemClick(int id) {
+        switch (id) {
+            case R.id.dialogTvChoosePhoto:
+                takePictureIntent(R.id.dialogTvChoosePhoto);
+                mIsDelete = false;
+                mCurrentPhotoPath = null;
+                break;
+            case R.id.dialogTvTakePhoto:
+                takePictureIntent(R.id.dialogTvTakePhoto);
+                mIsDelete = false;
+                mUriString = null;
+                break;
+            case R.id.dialogTvDelete:
+                mProfileImage.setImageResource(R.drawable.ic_user_icon_default);
+                mIsDelete = true;
+                break;
+        }
+    }
 }

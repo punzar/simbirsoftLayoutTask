@@ -38,6 +38,12 @@ public class HelpActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.commit();
 
     }
+    private void setFragment(Fragment fragment, String tag) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment, tag);
+        fragmentTransaction.commit();
+
+    }
 
     private void setFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -66,7 +72,7 @@ public class HelpActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             }
             case R.id.bottom_nav_profile:
-                setFragment(new ProfileFragment());
+                setFragment(new ProfileFragment(),"PROFILE");
                 break;
         }
         return true;

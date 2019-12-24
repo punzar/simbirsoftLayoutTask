@@ -6,4 +6,5 @@
     <dimen name="attribute_t_size">12sp</dimen>
     <dimen name="attribute_value_t_size">16sp</dimen>
     <dimen name="between_attribute">10dp</dimen>
+    <dimen name="dialog_text_size">22sp</dimen>
 </resources>
