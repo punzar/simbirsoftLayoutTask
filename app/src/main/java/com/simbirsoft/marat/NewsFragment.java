@@ -57,6 +57,7 @@ public class NewsFragment extends Fragment {
                 return true;
             }
         });
+
         Type typeNewsEvent = new TypeToken<ArrayList<NewsEvent>>() {
         }.getType();
         Type typeHelpCategory = new TypeToken<ArrayList<HelpCategory>>() {

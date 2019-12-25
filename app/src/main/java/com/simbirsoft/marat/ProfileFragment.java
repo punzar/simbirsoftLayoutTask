@@ -35,8 +35,6 @@ import static android.app.Activity.RESULT_OK;
 public class ProfileFragment extends Fragment implements View.OnClickListener, PhotoSettingsListener {
     ImageView mProfileImage;
     String mCurrentPhotoPath;
-    boolean mIsDelete;
-    String mUriString;
     final static int TAKE_IMAGE_REQUEST = 1;
     final static int CHOOSE_IMAGE_REQUEST = 2;
     final static String TAG = "PROFILE";
@@ -48,11 +46,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        if (savedInstanceState != null) {
-            mCurrentPhotoPath = savedInstanceState.getString("PATH");
-            mIsDelete = savedInstanceState.getBoolean("IsDELETE");
-            mUriString = savedInstanceState.getString("URI");
-        }
     }
 
     @Override
@@ -63,16 +56,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         myToolbar.inflateMenu(R.menu.profile_menu);
         mProfileImage = view.findViewById(R.id.profileImageView);
 
-
-        if (mCurrentPhotoPath != null && !mIsDelete)
-            Picasso.get().load(new File(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
-
-        if (mUriString != null && !mIsDelete)
-            Picasso.get().load(Uri.parse(mUriString)).fit().centerCrop().into(mProfileImage);
-
-
-        if (mIsDelete)
-            mProfileImage.setImageResource(R.drawable.ic_user_icon_default);
+        if (savedInstanceState != null && savedInstanceState.getString("PATH") != null) {
+            mCurrentPhotoPath = savedInstanceState.getString("PATH");
+            Picasso.get().load(Uri.parse(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
+        }
 
         mProfileImage.setOnClickListener(this);
 
@@ -96,6 +83,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
                     if (photoFile != null) {
                         Uri photoUri = FileProvider.getUriForFile(getActivity(), "com.simbirsoft.marat.fileprovider", photoFile);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                        mCurrentPhotoPath = photoUri.toString();
                         startActivityForResult(intent, TAKE_IMAGE_REQUEST);
                     }
 
@@ -115,7 +103,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
@@ -125,30 +112,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         switch (requestCode) {
             case TAKE_IMAGE_REQUEST:
                 if (resultCode == RESULT_OK)
-                    setmProfileImage(TAKE_IMAGE_REQUEST);
+                    Picasso.get().load(Uri.parse(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
                 break;
             case CHOOSE_IMAGE_REQUEST:
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
-                    mUriString = selectedImage.toString();
-                    setmProfileImage(CHOOSE_IMAGE_REQUEST);
+                    mCurrentPhotoPath = selectedImage.toString();
+                    Picasso.get().load(Uri.parse(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
                     break;
                 }
         }
     }
 
-    private void setmProfileImage(int requestCode) {
-        switch (requestCode) {
-            case TAKE_IMAGE_REQUEST:
-                Picasso.get().load(new File(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
-                break;
-            case CHOOSE_IMAGE_REQUEST:
-                //todo  обрабатывать ширину и высоту фото
-                Picasso.get().load(Uri.parse(mUriString)).fit().centerCrop().into(mProfileImage);
-                break;
-        }
-
-    }
 
     @Override
     public void onClick(View view) {
@@ -160,9 +135,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("PATH", mCurrentPhotoPath);
-        outState.putBoolean("IsDELETE", mIsDelete);
-        outState.putString("URI", mUriString);
-
     }
 
     @Override
@@ -170,17 +142,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         switch (id) {
             case R.id.dialogTvChoosePhoto:
                 takePictureIntent(R.id.dialogTvChoosePhoto);
-                mIsDelete = false;
-                mCurrentPhotoPath = null;
                 break;
             case R.id.dialogTvTakePhoto:
                 takePictureIntent(R.id.dialogTvTakePhoto);
-                mIsDelete = false;
-                mUriString = null;
                 break;
             case R.id.dialogTvDelete:
-                mProfileImage.setImageResource(R.drawable.ic_user_icon_default);
-                mIsDelete = true;
+                Uri uri = Uri.parse("android.resource://com.simbirsoft.marat/" + R.drawable.ic_user_icon_default);
+                mCurrentPhotoPath = uri.toString();
+                Picasso.get().load(Uri.parse(mCurrentPhotoPath)).fit().centerCrop().into(mProfileImage);
                 break;
         }
     }
