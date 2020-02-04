@@ -22,6 +22,15 @@
         android:text="@string/help_titel"
         android:textAppearance="@style/HelperText.Body1" />
 
+    <ProgressBar
+        android:id="@+id/progress_horizontal_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_toolbar"
+        android:visibility="gone"
+        />
+    
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_help"
         android:layout_width="match_parent"
