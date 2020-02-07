@@ -23,7 +23,7 @@
         android:textAppearance="@style/HelperText.Body1" />
 
     <ProgressBar
-        android:id="@+id/progress_horizontal_help"
+        android:id="@+id/progress_bar_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/my_toolbar"

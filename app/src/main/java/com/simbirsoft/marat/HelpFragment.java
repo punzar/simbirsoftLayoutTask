@@ -38,12 +38,11 @@ public class HelpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_help, container, false);
-        mProgressBar = view.findViewById(R.id.progress_horizontal_help);
+        mProgressBar = view.findViewById(R.id.progress_bar_help);
         mRvTask = new RVTask();
         mRvTask.setHelpFragmentWeakReference(new WeakReference<HelpFragment>(HelpFragment.this));
         mRvTask.execute();
 
-//        initItems();
         return view;
     }
 
